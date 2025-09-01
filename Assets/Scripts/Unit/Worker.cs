@@ -15,6 +15,8 @@ public class Worker : Movable
     public GoldMine currentGoldMine;
     public Castle currentCastle;
     public Tree currentTree;
+    public List<UnitTypes> BuildingList = new List<UnitTypes>();
+    public List<UnitTypes> HighTechBuildingList = new List<UnitTypes>();
     // Start is called before the first frame update
     void Start()
     {

@@ -22,6 +22,9 @@ public class UIScript : MonoBehaviour
     public Transform Btns;
     bool _updateCurrentRequested = false;
     private Transform _topBar;
+    public bool IsBuildSelected = false;
+    public bool IsHighTechBuildSelected = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +40,120 @@ public class UIScript : MonoBehaviour
         UpdateMiniMapRectPosition();
 
         // MiniMap.Find("imgFrame").GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
+    }
+    public void UpdateMenuBox(List<UnitBase> unitList)
+    {
+        foreach (Transform btn in Btns)
+        {
+            btn.gameObject.SetActive(false);
+        }
+        if (IsBuildSelected)
+        {
+            foreach (var building in unitList[0].GetComponent<Worker>().BuildingList)
+            {
+                Transform btn = Btns.Find("btnBuild" + building);
+                if (btn) btn.gameObject.SetActive(true);
+                else
+                {
+                    CreateMenuBtn(building, "btnBuild", "Images/Character/Building/" + building);
+                }
+            }
+        }
+        if (IsHighTechBuildSelected)
+        {
+            foreach (var building in unitList[0].GetComponent<Worker>().HighTechBuildingList)
+            {
+                Transform btn = Btns.Find("btnHTBuild" + building);
+                if (btn) btn.gameObject.SetActive(true);
+                else
+                {
+                    CreateMenuBtn(building, "btnHTBuild", "Images/Character/Building/" + building);
+                }
+            }
+            return;
+        }
+        if (unitList == null || unitList.Count == 0)
+        {
+            Btns.gameObject.SetActive(false);
+            return;
+        }
+        bool isAllBattleUnit = true;
+        foreach (var unit in unitList)
+        {
+            if (unit.UnitType != UnitTypes.Warrior && unit.UnitType != UnitTypes.Archer)
+            {
+                isAllBattleUnit = false;
+                break;
+            }
+        }
+        Btns.Find("btnPatrol").gameObject.SetActive(isAllBattleUnit);
+        Btns.Find("btnHold").gameObject.SetActive(isAllBattleUnit);
+        Btns.gameObject.SetActive(true);
+
+        bool isAllWorker = true;
+        foreach (var unit in unitList)
+        {
+            if (unit.UnitType != UnitTypes.Worker)
+            {
+                isAllWorker = false;
+                break;
+            }
+        }
+        Btns.Find("btnBuild").gameObject.SetActive(isAllWorker);
+        Btns.Find("btnHTBuild").gameObject.SetActive(isAllWorker);
+
+        bool isAllMoveable = true;
+        foreach (var unit in unitList)
+        {
+            if (unit.UnitType != UnitTypes.Worker && unit.UnitType != UnitTypes.Warrior && unit.UnitType != UnitTypes.Archer)
+            {
+                isAllMoveable = false;
+                break;
+            }
+        }
+        Btns.Find("btnMove").gameObject.SetActive(isAllMoveable);
+        Btns.Find("btnStop").gameObject.SetActive(isAllMoveable);
+
+        bool isAllAtackable = true;
+        foreach (var unit in unitList)
+        {
+            if (!(unit.CanAttackGround || unit.CanAttackAir))
+            {
+                isAllAtackable = false;
+                break;
+            }
+        }
+        Btns.Find("btnAttack").gameObject.SetActive(isAllAtackable);
+
+    }
+    public void CreateMenuBtn(UnitTypes building, string btnName, string imgPath)
+    {
+        Transform btn = Instantiate(Resources.Load<GameObject>("Prefab/UI/" + btnName), Btns).transform;
+        btn.name = btnName + building;
+        Image img = btn.Find("Image").GetComponent<Image>();
+        if (img) img.sprite = Resources.Load<Sprite>(imgPath);
+        img.SetNativeSize();
+        float targetWidth = 56;
+        float targetHeight = 56;
+        float ratio = targetWidth / targetHeight;
+        float width = img.rectTransform.sizeDelta.x;
+        float height = img.rectTransform.sizeDelta.y;
+        if (width / height > ratio)
+        {
+            img.rectTransform.sizeDelta = new Vector2(targetWidth, targetWidth / ratio);
+        }
+        else
+        {
+            img.rectTransform.sizeDelta = new Vector2(targetHeight * ratio, targetHeight);
+        }
+    }
+    public void UpdateBtnMenu()
+    {
+        foreach (Transform btn in Btns)
+        {
+            BtnMenu btnMenu = btn.GetComponent<BtnMenu>();
+            if (btnMenu) btnMenu.CheckConditions();
+        }
     }
 
     public void UpdateMiniMapRectSize()

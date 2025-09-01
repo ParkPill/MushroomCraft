@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 
 public class GameScript : MonoBehaviour
 {
+    public Material GrayMaterial;
     public ObjectsPool EffectPool;
     public Transform Trees;
     public int Gold = 0;
@@ -625,6 +626,7 @@ public class GameScript : MonoBehaviour
         {
             SelectObject(unit);
         }
+        TheUIScript.UpdateMenuBox(SelectedList);
     }
 
     private void HandleBoxSelection()
@@ -656,6 +658,7 @@ public class GameScript : MonoBehaviour
                 SelectObject(unit);
             }
         }
+        TheUIScript.UpdateMenuBox(SelectedList);
     }
 
     private void HandleInputModifiers()
@@ -962,6 +965,30 @@ public class GameScript : MonoBehaviour
         {
             CurrentOrder = OrderTypes.None;
         }
+    }
+    public void OnBuildClick(GameObject obj)
+    {
+        string buildingName = obj.name.Replace("btnBuild", "");
+        UnitTypes buildingType = (UnitTypes)System.Enum.Parse(typeof(UnitTypes), buildingName);
+
+    }
+    public void OnHTBuildClick(GameObject obj)
+    {
+        string buildingName = obj.name.Replace("btnHTBuild", "");
+        UnitTypes buildingType = (UnitTypes)System.Enum.Parse(typeof(UnitTypes), buildingName);
+
+    }
+    public void OnSpawnClick(GameObject obj)
+    {
+        string buildingName = obj.name.Replace("btnSpawn", "");
+        UnitTypes buildingType = (UnitTypes)System.Enum.Parse(typeof(UnitTypes), buildingName);
+
+    }
+    public void OnMagicClick(GameObject obj)
+    {
+        string buildingName = obj.name.Replace("btnMagic", "");
+        UnitTypes buildingType = (UnitTypes)System.Enum.Parse(typeof(UnitTypes), buildingName);
+
     }
     UnitBase GetClickedUnit(Vector3 worldPosition)
     {

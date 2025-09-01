@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class UnitBase : MonoBehaviour
 {
+    public UnitBase targetUnit;
     public Transform SelectedCircle;
     public Transform Model;
     public Identity Team;

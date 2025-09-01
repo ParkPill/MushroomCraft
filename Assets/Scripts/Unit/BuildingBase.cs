@@ -17,6 +17,8 @@ public class BuildingBase : UnitBase
     [SerializeField] protected float productionProgress = 0f;
     [SerializeField] protected bool isProducing = false;
     public List<Vector3> SurroundingTiles = new List<Vector3>();
+    public List<UnitTypes> UnitSpawnList = new List<UnitTypes>();
+    public List<UpgradeTypes> UpgradeList = new List<UpgradeTypes>();
 
     public override void Init()
     {

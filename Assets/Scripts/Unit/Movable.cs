@@ -28,7 +28,7 @@ public class Movable : UnitBase
     public bool canAttack = true;
 
     public Vector3 TargetMovePoint;
-    public UnitBase targetUnit;
+
     public bool isMoving = false;
     protected bool isAttacking = false;
     protected Vector3 lastPosition;
@@ -255,15 +255,22 @@ public class Movable : UnitBase
         int endX = Mathf.FloorToInt(targetMovePos.x);
         int endY = Mathf.FloorToInt(targetMovePos.y);
 
-        // Generate path using A*
-        astarTile.GeneratePath(startX, startY, endX, endY);
-        if (astarTile.path.Count > 0)
+        if (MoveType == MoveTypes.Walk)
         {
-            astarTile.path[astarTile.path.Count - 1] = targetMovePos;
+            // Generate path using A*
+            astarTile.GeneratePath(startX, startY, endX, endY);
+            if (astarTile.path.Count > 0)
+            {
+                astarTile.path[astarTile.path.Count - 1] = targetMovePos;
+            }
+            if (astarTile.path.Count > 1)
+            {
+                astarTile.path.RemoveAt(0);
+            }
         }
-        if (astarTile.path.Count > 1)
+        else if (MoveType == MoveTypes.Fly)
         {
-            astarTile.path.RemoveAt(0);
+            astarTile.GenerateFlyPath(startX, startY, endX, endY);
         }
     }
 
@@ -466,7 +473,7 @@ public class Movable : UnitBase
         print($"attack {target}/{canAttack}");
         if (!canAttack || target == null) return;
         if (!GameManager.IsAttackable(this, target)) return;
-        print("attack!!");
+        print($"{name} attack unit {target.name}!!");
         // Leave current group if exists
         // if (currentGroup != null)
         // {

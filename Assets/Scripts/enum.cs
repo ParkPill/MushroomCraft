@@ -41,7 +41,27 @@ public enum UnitTypes
     Archer,
     GoldMine,
     Castle,
-    Tree
+    CastleLair,
+    CastleHive,
+    Tree,
+    Drone,
+    Catapult,
+    Turret,
+    Barracks,
+    SupplyDepot,
+    EngineeringBay,
+    Factory,
+}
+public enum UpgradeTypes
+{
+    MeleeAttack,
+    RangeAttack,
+    GroundDefense,
+    AirDefense,
+    AttackRange,
+    AttackCooldown,
+    Lair,
+    Hive
 }
 public enum UnitCategory
 {

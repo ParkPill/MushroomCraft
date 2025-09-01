@@ -291,8 +291,8 @@ public class GameManager : MonoBehaviour
 
     public static bool IsAttackable(UnitBase attacker, UnitBase target)
     {
-        if (attacker.CanAttackGround && target.MoveOnGround) return true;
-        if (attacker.CanAttackAir && target.MoveOnAir) return true;
+        if (attacker.CanAttackGround && (target.MoveType == MoveTypes.Walk || target.MoveType == MoveTypes.Fixed)) return true;
+        if (attacker.CanAttackAir && target.MoveType == MoveTypes.Fly) return true;
         return false;
     }
 

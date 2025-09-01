@@ -168,6 +168,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2151422363789267809, guid: e690b73d248e5344492018330b76b679, type: 3}
+      propertyPath: MoveOnAir
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2151422363789267809, guid: e690b73d248e5344492018330b76b679, type: 3}
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 7267772885152288262, guid: 851ceab9d53562a4395ef6b925e813c2, type: 3}

@@ -15,6 +15,15 @@ public class BattleUnit : Movable
         Init();
     }
 
+    public override void Init()
+    {
+        base.Init();
+        if (ShootPoint == null)
+        {
+            ShootPoint = transform.Find("Model/ShootPoint");
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

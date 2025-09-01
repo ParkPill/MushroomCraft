@@ -116,6 +116,15 @@ public class AStarTile : MonoBehaviour
         int dy = y2 - y1;
         return Mathf.Sqrt(dx * dx + dy * dy);
     }
+    public List<Vector2> GenerateFlyPath(int startX, int startY, int endX, int endY)
+    {
+        print($"GenerateFlyPath: {startX}, {startY}, {endX}, {endY}");
+        path.Clear();
+        isPathGenerated = true;
+        path.Add(new Vector2(startX, startY));
+        path.Add(new Vector2(endX, endY));
+        return path;
+    }
 
     public List<Vector2> GeneratePath(int startX, int startY, int endX, int endY)
     {
