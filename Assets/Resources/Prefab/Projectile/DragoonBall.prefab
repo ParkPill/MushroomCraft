@@ -166,6 +166,7 @@ MonoBehaviour:
   Speed: 10
   Target: {fileID: 0}
   Model: {fileID: 0}
+  Shooter: {fileID: 0}
 --- !u!1 &8674371184046619174
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,7 +241,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.3
+  m_Time: 0.4
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3

@@ -19,13 +19,20 @@ public class BuildingBase : UnitBase
     public List<Vector3> SurroundingTiles = new List<Vector3>();
     public List<UnitTypes> UnitSpawnList = new List<UnitTypes>();
     public List<UpgradeTypes> UpgradeList = new List<UpgradeTypes>();
-
+    public List<Sprite> SmokeSprites = new List<Sprite>();
+    public Transform SmokePoint;
+    public float SmokeInterval = 1.5f;
+    private float _smokeTimer = 0f;
     public override void Init()
     {
         base.Init();
         if (spawnPoint == null)
         {
             spawnPoint = transform;
+        }
+        if (SmokeSprites.Count > 0)
+        {
+            SmokePoint = transform.Find("Model/SmokePoint");
         }
     }
 
@@ -160,9 +167,4 @@ public class BuildingBase : UnitBase
     public bool IsProducing() => isProducing;
     public float GetProductionProgress() => productionProgress;
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
