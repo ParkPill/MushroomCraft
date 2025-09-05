@@ -8,12 +8,26 @@ public class BtnMenu : MonoBehaviour
 {
     Image _img;
     bool _isInit = false;
+    public UnitTypes SpawnUnit;
     public List<UnitTypes> OrConditions = new List<UnitTypes>();
-    // Start is called before the first frame update
+    bool _isConditionSet = false;
     void Start()
     {
         Init();
         CheckConditions();
+    }
+    void SetCondition()
+    {
+        if (_isConditionSet) return;
+        _isConditionSet = true;
+        if (SpawnUnit == UnitTypes.EngineeringBay)
+        {
+            OrConditions.Add(UnitTypes.Turret);
+        }
+        else if (SpawnUnit == UnitTypes.Barracks)
+        {
+            OrConditions.Add(UnitTypes.Turret);
+        }
     }
     void Init()
     {
@@ -27,12 +41,15 @@ public class BtnMenu : MonoBehaviour
     public void CheckConditions()
     {
         Init();
+        SetCondition();
+        print($"CheckConditions : {name}");
         GameScript gameScript = GameManager.Instance.TheGameScript;
         if (gameScript == null) return;
         foreach (var condition in OrConditions)
         {
-            if (gameScript.SelectedList.Any(x => x.UnitType == condition))
+            if (!gameScript.AllUnitList.Any(x => x.UnitType == condition && x.Team == gameScript.MyTeam))
             {
+                // print($"condition not pass : {condition}/{name}");
                 _img.material = GameManager.Instance.TheGameScript.GrayMaterial;
                 foreach (Transform child in transform)
                 {
@@ -55,29 +72,23 @@ public class BtnMenu : MonoBehaviour
         UnitTypes missingCondition = UnitTypes.Worker;
         if (OrConditions.Count > 0)
         {
-            missingCondition = OrConditions.FirstOrDefault(x => !GameManager.Instance.TheGameScript.SelectedList.Any(y => y.UnitType == x));
+            missingCondition = OrConditions.FirstOrDefault(x => !GameManager.Instance.TheGameScript.AllUnitList.Any(y => y.UnitType == x && y.Team == GameManager.Instance.TheGameScript.MyTeam));
         }
+        print($"missingCondition : {missingCondition}/{name}");
         if (missingCondition != UnitTypes.Worker)
         {
             GameManager.Instance.TheGameScript.TheUIScript.ShowInstantMessage(missingCondition.ToString());
             return;
         }
-        if (gameObject.name.Contains("btnBuild"))
-        {
-            GameManager.Instance.TheGameScript.OnBuildClick(gameObject);
-        }
-        else if (gameObject.name.Contains("btnHTBuild"))
-        {
-            GameManager.Instance.TheGameScript.OnHTBuildClick(gameObject);
-        }
-        else if (gameObject.name.Contains("btnSpawn"))
-        {
-            GameManager.Instance.TheGameScript.OnSpawnClick(gameObject);
-        }
-        else if (gameObject.name.Contains("btnMagic"))
-        {
-            GameManager.Instance.TheGameScript.OnMagicClick(gameObject);
-        }
+        GameManager.Instance.TheGameScript.OnMenuButtonClick(SpawnUnit);
+        // if (gameObject.name.Contains("btnSpawn"))
+        // {
+        //     GameManager.Instance.TheGameScript.OnSpawnClick(gameObject);
+        // }
+        // else if (gameObject.name.Contains("btnMagic"))
+        // {
+        //     GameManager.Instance.TheGameScript.OnMagicClick(gameObject);
+        // }
     }
-    
+
 }

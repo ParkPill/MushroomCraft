@@ -179,7 +179,7 @@ MonoBehaviour:
   SelectedCircle: {fileID: 0}
   Model: {fileID: 0}
   Team: 0
-  UnitType: 0
+  UnitType: 13
   MoveType: 0
   unitName: 
   HPMax: 60
@@ -218,6 +218,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2d73b0b5d00154b86aed9680223e7974, type: 3}
   SmokePoint: {fileID: 0}
   SmokeInterval: 1.5
-  SmokePrefab: {fileID: 0}
+  SmokeSpeed: 1
   infoText: {fileID: 0}
   IsRunning: 0

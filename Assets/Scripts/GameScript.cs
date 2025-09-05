@@ -6,6 +6,9 @@ using UnityEngine.Tilemaps;
 
 public class GameScript : MonoBehaviour
 {
+    public bool IsPlaceMode = false;
+    public Transform TileTemplate;
+    public Vector2Int CurrentBuildingTileSize;
     public Material GrayMaterial;
     public ObjectsPool EffectPool;
     public Transform Trees;
@@ -179,6 +182,7 @@ public class GameScript : MonoBehaviour
         HandleInputModifiers();
         UpdateSelectedObjectsBoxes();
         HandleRightClick();
+        HandleMouseMove();
     }
 
     void OnDrawGizmos()
@@ -313,6 +317,13 @@ public class GameScript : MonoBehaviour
             OnCommand(Commands.Stop);
             TheUIScript.SetKeyDown(Commands.Stop);
         }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (TheUIScript.IsBuildSelected || TheUIScript.IsHighTechBuildSelected)
+            {
+                TheUIScript.OnCancelMenuClick();
+            }
+        }
         else if (Input.GetKeyDown(KeyCode.Alpha0)) OnCommand(Commands.Num0);
         else if (Input.GetKeyDown(KeyCode.Alpha1)) OnCommand(Commands.Num1);
         else if (Input.GetKeyDown(KeyCode.Alpha2)) OnCommand(Commands.Num2);
@@ -397,6 +408,80 @@ public class GameScript : MonoBehaviour
                 TheUIScript.UpdateMiniMapRectPosition();
             }
         }
+    }
+    public void TurnOnTowerPlaceMode(int index)
+    {
+        IsPlaceMode = true;
+
+        // TurnOnPlaceMode();
+
+        // TileTemplate.transform.position = TheCamera.transform.position + new Vector3((CurrentTowerData.TileSize.x / 2 + 1) * (TheCamera.transform.localScale.x < 0 ? -1 : 1), 0, 0);
+        // CheckPlaceTower(TileTemplate.OccupiedTileSize);
+        // TheUIScript.TheCanvas.Find("btnCancel").gameObject.SetActive(true);
+        // TheUIScript.TheCanvas.Find("btnOk").gameObject.SetActive(true);
+        // TileTemplate.GetComponent<FieldTower>().enabled = false;
+    }
+    void CheckPlaceTower(Vector2Int tileSize)
+    {
+        // print($"towerPos1: {TileTemplate.transform.position}");
+        Vector2Int towerPos = new Vector2Int(Mathf.RoundToInt(TileTemplate.transform.position.x), Mathf.RoundToInt(TileTemplate.transform.position.y));
+        // print($"towerPos2: {towerPos}");
+        int mazeWidth = 0;
+        int mazeHeight = 0;
+
+        // Map map = null;
+        // if (GameType == GameTypes.Maze) map = TheMazeMap;
+        // else if (GameType == GameTypes.Fine || GameType == GameTypes.Field) map = TheFineMap;
+        // bool isPlaceable = true;
+        // for (int x = 0; x < tileSize.x; x++)
+        // {
+        //     for (int y = 0; y < tileSize.y; y++)
+        //     {
+        //         Vector2 checkPos = new Vector2(towerPos.x + x, towerPos.y + y);
+
+        //         // 타일 체크
+        //         TileBase tile = TheFloor.GetTile(new Vector3Int((int)checkPos.x, (int)checkPos.y, 0));
+        //         if (tile == null)
+        //         {
+        //             isPlaceable = false;
+        //             break;
+        //         }
+
+        //         // 범위 체크
+        //         if (checkPos.x < 0 || checkPos.y < 0)//|| checkPos.x >= mazeWidth || checkPos.y >= mazeHeight)
+        //         {
+        //             isPlaceable = false;
+        //             break;
+        //         }
+        //         // print($"checkPos: {checkPos}/{[(int)checkPos.x, (int)checkPos.y]}");
+        //         // 해당 위치가 벽인지 확인 (maze에서 true는 벽, false는 빈 공간)
+        //         if (map.IsWallAt(checkPos))
+        //         {
+        //             isPlaceable = false;
+        //             break;
+        //         }
+        //     }
+        //     if (!isPlaceable) break;
+        // }
+
+        // float roadWidth = FieldManager.roadWidth;
+        // float smallRoadRoadWidth = FieldManager.smallRoadRoadWidth;
+        // float smallBoxWidth = FieldManager.smallBoxWidth;
+        // float boxWidth = smallBoxWidth * 2 + smallRoadRoadWidth;
+        // Vector3 fieldPos = GetFieldPosition(_fusionClient.SlotIndex);
+        // if (fieldPos.x + boxWidth < towerPos.x || fieldPos.y + boxWidth < towerPos.y ||
+        // fieldPos.x > towerPos.x || fieldPos.y > towerPos.y)
+        // {
+        //     isPlaceable = false;
+        // }
+
+        // foreach (Transform square in TileTemplate.transform.Find("Squares"))
+        // {
+        //     SpriteRenderer spriteRenderer = square.GetComponent<SpriteRenderer>();
+        //     Color color = isPlaceable ? Color.green : Color.red;
+        //     spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a);
+        // }
+        // IsPlaceReady = isPlaceable;
     }
     bool _isLeftClickDownWorked = false;
     private void HandleLeftClick()
@@ -523,8 +608,8 @@ public class GameScript : MonoBehaviour
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = -TheCamera.transform.position.z;
             Vector3 endPosition = TheCamera.ScreenToWorldPoint(mousePosition);
-
-            if (!_isLeftClickDownWorked)
+            bool isClickedOnUI = UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+            if (!_isLeftClickDownWorked && !isClickedOnUI)
             {
                 // Check if it was a single click (no drag)
                 if (Vector3.Distance(dragStartPosition, endPosition) < 0.1f)
@@ -547,6 +632,13 @@ public class GameScript : MonoBehaviour
                     HandleBoxSelection();
                 }
             }
+        }
+    }
+    private void HandleMouseMove()
+    {
+        if (IsPlaceMode)
+        {
+            // HandlePlaceMode();
         }
     }
     public void ShowMoveTarget(Vector3 worldPosition)
@@ -965,6 +1057,23 @@ public class GameScript : MonoBehaviour
         {
             CurrentOrder = OrderTypes.None;
         }
+    }
+    public void OnMenuButtonClick(UnitTypes unit)
+    {
+
+    }
+    bool IsBuilding(UnitTypes unit)
+    {
+        return unit == UnitTypes.EngineeringBay ||
+         unit == UnitTypes.Barracks ||
+         unit == UnitTypes.Factory ||
+         unit == UnitTypes.SupplyDepot ||
+         unit == UnitTypes.Turret ||
+         unit == UnitTypes.CastleLair ||
+         unit == UnitTypes.CastleHive ||
+         unit == UnitTypes.Castle ||
+         unit == UnitTypes.Tree ||
+         unit == UnitTypes.GoldMine;
     }
     public void OnBuildClick(GameObject obj)
     {

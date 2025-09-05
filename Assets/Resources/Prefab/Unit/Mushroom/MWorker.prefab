@@ -146,6 +146,30 @@ PrefabInstance:
       propertyPath: attackDamage
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6790399210693130973, guid: a2f15d2eb1bde44679bbf37426cbdac4, type: 3}
+      propertyPath: BuildingList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6790399210693130973, guid: a2f15d2eb1bde44679bbf37426cbdac4, type: 3}
+      propertyPath: BuildingList.Array.data[0]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6790399210693130973, guid: a2f15d2eb1bde44679bbf37426cbdac4, type: 3}
+      propertyPath: BuildingList.Array.data[1]
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6790399210693130973, guid: a2f15d2eb1bde44679bbf37426cbdac4, type: 3}
+      propertyPath: BuildingList.Array.data[2]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6790399210693130973, guid: a2f15d2eb1bde44679bbf37426cbdac4, type: 3}
+      propertyPath: HighTechBuildingList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6790399210693130973, guid: a2f15d2eb1bde44679bbf37426cbdac4, type: 3}
+      propertyPath: HighTechBuildingList.Array.data[0]
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 7738093402695592443, guid: a2f15d2eb1bde44679bbf37426cbdac4, type: 3}
       propertyPath: m_Name
       value: MWorker

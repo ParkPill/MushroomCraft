@@ -250,7 +250,7 @@ MonoBehaviour:
   SelectedCircle: {fileID: 0}
   Model: {fileID: 0}
   Team: 1
-  UnitType: 8
+  UnitType: 10
   MoveType: 0
   unitName: 
   HPMax: 60
@@ -285,7 +285,9 @@ MonoBehaviour:
   SmokeSprites: []
   SmokePoint: {fileID: 0}
   SmokeInterval: 1.5
+  SmokeSpeed: 1
   infoText: {fileID: 0}
+  IsRunning: 0
   Projectile: {fileID: 2810782355627821216, guid: 122e9b09d852546179af27a2beadb6c0, type: 3}
   ShootPoint: {fileID: 0}
   IsRaiderOn: 1

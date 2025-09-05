@@ -43,10 +43,12 @@ public class UIScript : MonoBehaviour
     }
     public void UpdateMenuBox(List<UnitBase> unitList)
     {
+        print("UpdateMenuBox: " + unitList.Count);
         foreach (Transform btn in Btns)
         {
             btn.gameObject.SetActive(false);
         }
+
         if (IsBuildSelected)
         {
             foreach (var building in unitList[0].GetComponent<Worker>().BuildingList)
@@ -58,8 +60,10 @@ public class UIScript : MonoBehaviour
                     CreateMenuBtn(building, "btnBuild", "Images/Character/Building/" + building);
                 }
             }
+            ShowCancelMenu();
+            return;
         }
-        if (IsHighTechBuildSelected)
+        else if (IsHighTechBuildSelected)
         {
             foreach (var building in unitList[0].GetComponent<Worker>().HighTechBuildingList)
             {
@@ -67,9 +71,10 @@ public class UIScript : MonoBehaviour
                 if (btn) btn.gameObject.SetActive(true);
                 else
                 {
-                    CreateMenuBtn(building, "btnHTBuild", "Images/Character/Building/" + building);
+                    CreateMenuBtn(building, "btnBuild", "Images/Character/Building/" + building);
                 }
             }
+            ShowCancelMenu();
             return;
         }
         if (unitList == null || unitList.Count == 0)
@@ -124,12 +129,54 @@ public class UIScript : MonoBehaviour
             }
         }
         Btns.Find("btnAttack").gameObject.SetActive(isAllAtackable);
-
     }
-    public void CreateMenuBtn(UnitTypes building, string btnName, string imgPath)
+    public void OnBuildClick()
+    {
+        IsBuildSelected = true;
+        UpdateMenuBox(_gameScript.SelectedList);
+    }
+    public void OnHTBuildClick()
+    {
+        IsHighTechBuildSelected = true;
+        UpdateMenuBox(_gameScript.SelectedList);
+    }
+    public void ShowCancelMenu()
+    {
+        int count = 0;
+        foreach (Transform btn in Btns)
+        {
+            if (btn.gameObject.activeSelf)
+            {
+                print($"btn active : {btn.name}");
+                count++;
+            }
+        }
+        int index = 0;
+        for (int i = count; i < 5; i++)
+        {
+            Transform btn = Btns.Find("empty" + index);
+            btn.gameObject.SetActive(true);
+            btn.SetAsLastSibling();
+            index++;
+        }
+        Transform btnCancel = Btns.Find("btnCancel");
+        btnCancel.gameObject.SetActive(true);
+        btnCancel.SetAsLastSibling();
+    }
+    public void OnCancelMenuClick()
+    {
+        IsBuildSelected = false;
+        IsHighTechBuildSelected = false;
+        UpdateMenuBox(_gameScript.SelectedList);
+    }
+    public void CreateMenuBtn(UnitTypes spawningUnit, string btnName, string imgPath)
     {
         Transform btn = Instantiate(Resources.Load<GameObject>("Prefab/UI/" + btnName), Btns).transform;
-        btn.name = btnName + building;
+        print("CreateMenuBtn: " + btnName + spawningUnit);
+        btn.name = btnName + spawningUnit;
+        BtnMenu btnMenu = btn.GetComponent<BtnMenu>();
+        btnMenu.SpawnUnit = spawningUnit;
+        btnMenu.CheckConditions();
         Image img = btn.Find("Image").GetComponent<Image>();
         if (img) img.sprite = Resources.Load<Sprite>(imgPath);
         img.SetNativeSize();
