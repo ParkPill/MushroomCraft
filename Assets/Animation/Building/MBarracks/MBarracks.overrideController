@@ -6,8 +6,10 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MCastle
+  m_Name: MBarracks
   m_Controller: {fileID: 9100000, guid: ed8d004db19f840cd84d0d6d58bf7ad9, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: a0073c15bd04645399a6a3d33303ecf9, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: a0073c15bd04645399a6a3d33303ecf9, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 713de46be1fe1fb44a1ce68aa73792e6, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: ecad5dd4426367a4eb5f4ab42e582c29, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 6728c7dfc480e9f4aae2a85ef3c3a9b7, type: 2}

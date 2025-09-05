@@ -147,6 +147,11 @@ public class UIScript : MonoBehaviour
             img.rectTransform.sizeDelta = new Vector2(targetHeight * ratio, targetHeight);
         }
     }
+    public void OnCancelSpawning(int index)
+    {
+
+    }
+
     public void UpdateBtnMenu()
     {
         foreach (Transform btn in Btns)

@@ -8,10 +8,12 @@ public class ObjectsPool : PoolBase
 
     private Dictionary<string, List<GameObject>> _pools;
     private Dictionary<string, int> _indices;
+    public static ObjectsPool Instance;
 
     private void Start()
     {
         InitializePools();
+        Instance = this;
     }
 
     private void InitializePools()

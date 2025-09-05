@@ -6,6 +6,12 @@ using UnityEngine.UI;
 
 public static class SNMenus
 {
+    [MenuItem("GameObject/StudioNAP/2D Square")]
+    public static void Make2DSquare()
+    {
+        GameObject obj = PrefabUtility.InstantiatePrefab(Resources.Load("Prefab/Square")) as GameObject;
+        CreateObject(obj);
+    }
     [MenuItem("GameObject/StudioNAP/Joystick")]
     public static void MakeJoystick()
     {

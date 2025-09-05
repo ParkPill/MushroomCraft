@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Castle : BuildingBase
+public class Barracks : BuildingBase
 {
-
     void Start()
     {
         Init();
@@ -27,13 +26,6 @@ public class Castle : BuildingBase
             // infoText.text = $"Gold: {currentGold}\nWorkers: {workers.Count}/{maxWorkers}";
         }
     }
-
-    public bool TryEnter(Worker worker)
-    {
-
-        return worker.Team == Team;
-    }
-
 
     void OnDestroy()
     {

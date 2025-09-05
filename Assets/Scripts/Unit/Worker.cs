@@ -17,6 +17,9 @@ public class Worker : Movable
     public Tree currentTree;
     public List<UnitTypes> BuildingList = new List<UnitTypes>();
     public List<UnitTypes> HighTechBuildingList = new List<UnitTypes>();
+    public Sprite GoldSprite;
+    public Sprite LumberSprite;
+    public Sprite WorkerSprite;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +67,7 @@ public class Worker : Movable
                             print($"Worker {name} try send to castle: {currentCastle.name}");
                             GameManager.Instance.TheGameScript.AddGold(CarryingItemCount);
                             CarryingItem = WorkerCarryingItem.None;
+                            UpdateModel();
                             CarryingItemCount = 0;
                             UpdateAnimation();
                             if (currentGoldMine)
@@ -114,6 +118,7 @@ public class Worker : Movable
                             print($"Worker {name} try send to castle: {currentCastle.name}");
                             GameManager.Instance.TheGameScript.AddLumber(CarryingItemCount);
                             CarryingItem = WorkerCarryingItem.None;
+                            UpdateModel();
                             CarryingItemCount = 0;
                             UpdateAnimation();
                             if (currentTree)
@@ -130,7 +135,21 @@ public class Worker : Movable
             }
         }
     }
-
+    public void UpdateModel()
+    {
+        if (CarryingItem == WorkerCarryingItem.Gold)
+        {
+            Model.GetComponent<SpriteRenderer>().sprite = GoldSprite;
+        }
+        else if (CarryingItem == WorkerCarryingItem.Lumber)
+        {
+            Model.GetComponent<SpriteRenderer>().sprite = LumberSprite;
+        }
+        else if (CarryingItem == WorkerCarryingItem.None)
+        {
+            Model.GetComponent<SpriteRenderer>().sprite = WorkerSprite;
+        }
+    }
     public override void InteractWith(UnitBase clickedUnit)
     {
         BuildingBase building = clickedUnit as BuildingBase;
@@ -234,6 +253,7 @@ public class Worker : Movable
     public void SetCarryingItem(WorkerCarryingItem item)
     {
         CarryingItem = item;
+        UpdateModel();
         UpdateAnimation();
         TrySendToCastle();
     }

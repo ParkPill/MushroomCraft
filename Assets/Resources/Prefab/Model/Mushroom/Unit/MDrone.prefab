@@ -399,7 +399,7 @@ PrefabInstance:
     - target: {fileID: 5095803371903151418, guid: 0cfe24eae8ce42f45a7ff535aeb7ab62, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 51d6ec3020b70624dbbdc6b9b808df96, type: 2}
+      objectReference: {fileID: 22100000, guid: 4e6c1efcd20d3194886ffc31b1aa25bc, type: 2}
     - target: {fileID: 7368041552658906936, guid: 0cfe24eae8ce42f45a7ff535aeb7ab62, type: 3}
       propertyPath: m_Name
       value: MDrone
